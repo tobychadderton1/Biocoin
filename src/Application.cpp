@@ -55,6 +55,17 @@ Application::Application()
     scoretext.setFillColor(sf::Color(0, 0, 0));
     scoretext.setPosition(sf::Vector2f(15, 5));
     moveCoin();
+
+    // Play music on a loop at 50% volume
+    music.openFromFile("assets/Music.wav");
+    music.setLoop(true);
+    music.setVolume(50);
+    music.play();
+
+    // load sound file for coin pickup blip
+    coinBuffer.loadFromFile("assets/Coin.wav");
+    coinSound.setBuffer(coinBuffer);
+    coinSound.setVolume(35);
 }
 
 // called every frame after screen clear
@@ -165,6 +176,9 @@ void Application::moveCoin()
     strstr >> ting;
     strstr.str("");
     strstr.clear();
+
+    /* Play coin pickup blip */
+    coinSound.play();
 
     scoretext.setString(ting);
     srand(time(NULL) * 90 ^ (time(NULL) / 2));

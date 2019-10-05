@@ -4,6 +4,8 @@
 #define _APPLICATION_H
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -30,6 +32,11 @@ private:
 
     sf::Font scoreFont;
     sf::Text scoretext;
+
+    sf::Music music;
+
+    sf::SoundBuffer coinBuffer;
+    sf::Sound coinSound;
 
 public:
     Application();

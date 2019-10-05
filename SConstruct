@@ -6,6 +6,7 @@ libs = """
 sfml-graphics
 sfml-window
 sfml-system
+sfml-audio
 """
 
 env = Environment(
