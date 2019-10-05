@@ -15,6 +15,10 @@
 class Application : public sf::RenderWindow
 {
 private:
+
+    // game clock is mostly used for random seeds
+    sf::Clock gameClock;
+
     sf::Texture backgroundtexture;
     sf::Sprite background;
 
@@ -38,6 +42,9 @@ private:
     sf::SoundBuffer coinBuffer;
     sf::Sound coinSound;
 
+    sf::Clock playerClock;
+    sf::Clock coinClock;
+
 public:
     Application();
 
@@ -46,9 +53,10 @@ public:
     void update();
 
     void moveCoin();
+
+    void addPointAndMoveCoin();
     
 protected:
-    sf::Clock playerClock;
 };
 
 #endif // _APPLICATION_H

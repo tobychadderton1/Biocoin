@@ -46,7 +46,7 @@ Application::Application()
     coin.setTextureRect(sf::IntRect(16, 16, 16, 16));
     coin.setScale(sf::Vector2f(3, 3));
 
-    score = -1;
+    score = 0;
 
     // load the font and set score text attributes
     scoreFont.loadFromFile("assets/font/RobotoMono-Bold.ttf");
@@ -141,7 +141,7 @@ void Application::update()
     // check if the player intersects with the coin
     if (Player.getGlobalBounds().intersects(coin.getGlobalBounds()))
     {
-        moveCoin();
+        addPointAndMoveCoin();
     }
     
     // if any movement key is pressed, change sprite every 0.1 seconds
@@ -158,29 +158,43 @@ void Application::update()
             Player.setTextureRect(Player.RectSource);
             playerClock.restart(); // restart clock
         }
+    
+    if (coinClock.getElapsedTime().asSeconds() > 2)
+    {
+        moveCoin();
+    }
 }
 
 /*
-    add 1 to score
-    convert score to a string
-    set scoretext's string value
-    randomise the coin's position
+    moves the coin to a random position
+    between 0 and 512-"WIDTH/HEIGHT" on both axis
 */
 void Application::moveCoin()
 {
+    srand(gameClock.getElapsedTime().asMilliseconds() * time(NULL) * 2);
+    coin.setPosition(rand() % (512-16*3), rand() % (512-16*3) );
+    coinClock.restart();
+}
+
+void Application::addPointAndMoveCoin()
+{
+    // move the coin
+    moveCoin();
+
+    // add one to score
     score += 1;
 
-    std::string ting;
+    // convert score to string
+    std::string scorestring;
     std::stringstream strstr;
     strstr << score;
-    strstr >> ting;
+    strstr >> scorestring;
     strstr.str("");
     strstr.clear();
 
     /* Play coin pickup blip */
     coinSound.play();
 
-    scoretext.setString(ting);
-    srand(time(NULL) * 90 ^ (time(NULL) / 2));
-    coin.setPosition(rand() % (512-16*3), rand() % (512-16*3) );
+    // set score text string
+    scoretext.setString(scorestring);
 }
