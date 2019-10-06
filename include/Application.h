@@ -11,6 +11,7 @@
 #include <sstream>
 
 #include "gameObject.h"
+#include "Button.h"
 
 class Application : public sf::RenderWindow
 {
@@ -41,6 +42,8 @@ private:
 
     sf::SoundBuffer coinBuffer;
     sf::Sound coinSound;
+
+    Button muteButton;
 
     sf::Clock playerClock;
     sf::Clock coinClock;

@@ -25,7 +25,7 @@ Application::Application()
     Player.setSpeed(2.f);
 
     // load objects sprites
-    objtextures.loadFromFile("assets/objects.png");
+    objtextures.loadFromFile("assets/items.png");
 
     // set textures for trees
     Tree1.setTexture(objtextures);
@@ -62,6 +62,12 @@ Application::Application()
     music.setVolume(50);
     music.play();
 
+    // Button to allow the player to mute the game
+    muteButton.setTexture(objtextures);
+    muteButton.setTextureRect(sf::IntRect(16, 0, 16, 16));
+    muteButton.setScale(sf::Vector2f(3, 3));
+    muteButton.setPosition(sf::Vector2f(512-16*3-5, 0+5));
+
     // load sound file for coin pickup blip
     coinBuffer.loadFromFile("assets/Coin.wav");
     coinSound.setBuffer(coinBuffer);
@@ -74,12 +80,10 @@ void Application::drawf()
     // draw Sprites
     draw(background);
     draw(Player);
-
     draw(Tree1);
     draw(Tree2);
-
     draw(coin);
-
+    draw(muteButton);
     draw(scoretext);
 }
 
@@ -103,13 +107,13 @@ void Application::update()
     };
 
     /*
-    Move the player
-    0,0 is top left of screen
+        Move the player
+        0,0 is top left of screen
 
-    y - velocity = up
-    x - velocity = left
-    y + velocity = down
-    x + velocity = right
+        y - velocity = up
+        x - velocity = left
+        y + velocity = down
+        x + velocity = right
     */
     if (wPressed & Player.getPosition().y > 0)
     {
@@ -159,9 +163,32 @@ void Application::update()
             playerClock.restart(); // restart clock
         }
     
+    // Move the coin automatically every 2 seconds
     if (coinClock.getElapsedTime().asSeconds() > 2)
     {
         moveCoin();
+    }
+
+    // if the mute button is pressed
+    if (muteButton.isPressed(this))
+    {
+        // if the sound is on
+        if (coinSound.getVolume() == 35)
+        {
+            // set volume to zero
+            // and change the button's texture rect
+            coinSound.setVolume(0);
+            music.setVolume(0);
+            muteButton.setTextureRect(sf::IntRect(0, 16, 16, 16));
+        }
+        else
+        {
+            // turn volume on and change
+            // button's texture rect
+            coinSound.setVolume(35);
+            music.setVolume(50);
+            muteButton.setTextureRect(sf::IntRect(16, 0, 16, 16));
+        }
     }
 }
 
