@@ -44,6 +44,7 @@ private:
     sf::Sound coinSound;
 
     Button muteButton;
+    bool muted;
 
     sf::Clock playerClock;
     sf::Clock coinClock;

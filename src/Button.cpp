@@ -9,7 +9,7 @@ bool Button::isMouseTouching(sf::Window *app)
 
         else : return false
     */
-    if (getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*app))))
+    if (getGlobalBounds().contains((sf::Vector2f)(sf::Mouse::getPosition(*app))))
     {
         return true;
     }

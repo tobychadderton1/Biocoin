@@ -68,6 +68,12 @@ Application::Application()
     muteButton.setScale(sf::Vector2f(3, 3));
     muteButton.setPosition(sf::Vector2f(512-16*3-5, 0+5));
 
+    /*
+        bool muted was added in to fix
+        mute button on mingw build
+    */
+    muted = false;
+
     // load sound file for coin pickup blip
     coinBuffer.loadFromFile("assets/Coin.wav");
     coinSound.setBuffer(coinBuffer);
@@ -173,20 +179,24 @@ void Application::update()
     if (muteButton.isPressed(this))
     {
         // if the sound is on
-        if (coinSound.getVolume() == 35)
+        if (!muted)
         {
             // set volume to zero
+            // set muted to true
             // and change the button's texture rect
             coinSound.setVolume(0);
             music.setVolume(0);
+            muted = true;
             muteButton.setTextureRect(sf::IntRect(0, 16, 16, 16));
         }
         else
         {
             // turn volume on and change
+            // set muted to false
             // button's texture rect
             coinSound.setVolume(35);
             music.setVolume(50);
+            muted = false;
             muteButton.setTextureRect(sf::IntRect(16, 0, 16, 16));
         }
     }
