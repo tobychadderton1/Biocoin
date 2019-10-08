@@ -1,2 +1,2 @@
-# LD45
+# Biocoin
 Submission for Ludum Dare 45
